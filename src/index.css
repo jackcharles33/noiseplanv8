@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #100030;
+  --card-background: #33274d;
+  --foreground: 210 40% 98%;
+  --input: 267 35% 18%;
+  --primary: 267 83% 60%;
+  --primary-gradient: linear-gradient(90deg, #E561A0 0%, #A363E3 100%);
+  --secondary: 267 35% 20%;
+  --accent: 267 83% 60%;
+  --error: 0 84% 60%;
+  --success: 142 72% 29%;
+  --radius: 1rem;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--background);
+  color: hsl(var(--foreground));
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 7L13 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.5rem center;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
