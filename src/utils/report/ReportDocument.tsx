@@ -8,71 +8,144 @@ interface ReportDocumentProps {
 }
 
 const steps = [
-  "From manufacturer's data, obtain the A-weighted sound power level of the heat pump. See 'Note 1:Sound power level'. The highest sound power level specified should be used",
-  "Use 'Note 2: Sound pressure level' and 'Note 3: Determination of directivity' below to establish the directivity 'Q' of the heat pump noise.",
+  "Assessment Date",
+  "Assessment Position",
+  "A-weighted sound power level of the heat pump dBA",
+  "Determine the directivity 'Q' of the heat pump noise.",
   "Measure the distance from the heat pump to the assessment position in metres",
-  "Use table in 'Note 4: dB distance reduction' below to obtain a dB reduction",
-  "Establish whether there is a solid barrier between the heat pump and the assessment position using 'Note 5: Barriers between the heat pump and the assessment position' and note any dB reduction",
-  "Calculate the sound pressure level from the heat pump at the assessment position using the following calculation: (STEP 1) + (STEP 4) + (STEP 5)",
-  "Background noise level. For the purposes of the MCS Planning Standard for air source heat pumps 40 dB(A) the background noise level is assumed to be 40 dB(A) Lp.",
-  "Determine the difference between background noise level and the heat pump noise level using the following calculation: (STEP 7) - (STEP 6)",
-  "Using the table in 'Note 7: Decibel correction' obtain an adjustment figure and then add this to whichever is the higher dB figure from STEP 6 and STEP 7."
+  "Determination of barrier correction - select barrier type",
+  "Determination of barrier correction - select line of sight",
+  "Calculate Sound Pressure Level",
+  "Final Result?"
 ];
 
-export const ReportDocument: React.FC<ReportDocumentProps> = ({ data }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <Text style={[styles.title, { fontSize: 16, marginBottom: 4 }]}>
-        {`${data.clientName} - ${data.clientAddress}`}
-      </Text>
-      <Text style={[styles.subtitle, { fontSize: 14, marginBottom: 20, color: '#000000' }]}>
-        MCS 020 - Manual Sound Calculator
-      </Text>
+export const ReportDocument: React.FC<ReportDocumentProps> = ({ data }) => {
+  // Format the date from assessmentDate or fallback to current date
+  const formattedDate = data.assessmentDate 
+    ? new Date(data.assessmentDate).toLocaleDateString('en-GB')
+    : new Date().toLocaleDateString('en-GB');
+  
+  // Safely extract directivity number (removing 'Q' prefix)
+  const directivityNumber = data.directivityFactor 
+    ? data.directivityFactor.replace('Q', '') 
+    : '0';
+  
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <Text style={[styles.title, { fontSize: 16, marginBottom: 4 }]}>
+          {`${data.clientName || 'Client'} - ${data.clientAddress || 'Address'}`}
+        </Text>
+        <Text style={[styles.subtitle, { fontSize: 14, marginBottom: 20, color: '#000000' }]}>
+          MCS 020 - Heat Pump Sound Calculator
+        </Text>
 
-      <Text style={[styles.sectionHeading]}>Assessment Details</Text>
-      <View style={styles.details}>
-        <Text style={styles.detailsText}>• Heat pump model is {data.model} and it is {data.distance}m from the assessment window.</Text>
-        <Text style={styles.detailsText}>• There is {data.installation} and it is {data.visibility}.</Text>
-        <Text style={styles.detailsText}>• The assessment position is one metre perpendicular to the centre of the first floor bedroom window as you're looking at the neighbours house from the rear.</Text>
-      </View>
-
-      <View style={styles.table}>
-        <View style={styles.tableHeader}>
-          <Text style={styles.stepCell}>Step</Text>
-          <Text style={styles.instructionCell}>Instructions</Text>
-          <Text style={styles.resultCell}>Result</Text>
+        <Text style={[styles.sectionHeading]}>Assessment Details</Text>
+        <View style={styles.details}>
+          <Text style={styles.detailsText}>
+            Heat pump model is {data.model || 'Unknown'} and it is {data.distance || '0'} metres from the assessment window.
+          </Text>
+          <Text style={styles.detailsText}>
+            There are {directivityNumber} Reflecting Surfaces and it is {data.visibilityType || 'Unknown'}.
+          </Text>
+          <Text style={styles.detailsText}>
+            The assessment position is one metre perpendicular to the centre of the closest habitable room.
+          </Text>
         </View>
 
-        {steps.map((instruction, index) => {
-          let result = '';
-          switch (index) {
-            case 0: result = `${data.soundPower} dB(A)`; break;
-            case 1: result = data.installation; break;
-            case 2: result = `${data.distance}m`; break;
-            case 3: result = `${data.distanceReduction} dB`; break;
-            case 4: result = `${data.barrier} dB`; break;
-            case 5: result = `${data.calculatedLevel} dB(A)`; break;
-            case 6: result = "40 dB(A)"; break;
-            case 7: result = `${data.difference} dB`; break;
-            case 8: result = `${data.finalLevel} dB(A)`; break;
-            default: result = '';
-          }
+        <View style={styles.table}>
+          <View style={styles.tableHeader}>
+            <Text style={styles.stepCell}>Step</Text>
+            <Text style={styles.instructionCell}>Instructions</Text>
+            <Text style={styles.resultCell}>MCS contractor results/notes</Text>
+          </View>
 
-          return (
-            <View key={index} style={styles.tableRow}>
-              <Text style={styles.stepCell}>{index + 1}</Text>
-              <Text style={styles.instructionCell}>{instruction}</Text>
-              <Text style={styles.resultCell}>{result}</Text>
-            </View>
-          );
-        })}
-      </View>
+          {/* Step 1: Assessment date */}
+          <View style={styles.tableRow}>
+            <Text style={styles.stepCell}>1</Text>
+            <Text style={styles.instructionCell}>{steps[0]}</Text>
+            <Text style={styles.resultCell}>{formattedDate}</Text>
+          </View>
 
-      <View style={[styles.tableRow, { marginTop: 20 }]}>
-        <Text style={[styles.resultCell, { width: '100%' }, data.isCompliant ? styles.passResult : styles.failResult]}>
-          Final Result: {data.finalLevel} dB(A) - {data.isCompliant ? 'COMPLIANT' : 'NON-COMPLIANT'}
-        </Text>
-      </View>
-    </Page>
-  </Document>
-);
+          {/* Step 2: Assessment position */}
+          <View style={styles.tableRow}>
+            <Text style={styles.stepCell}>2</Text>
+            <Text style={styles.instructionCell}>{steps[1]}</Text>
+            <Text style={styles.resultCell}>
+              {data.assessmentPosition || '0'}
+            </Text>
+          </View>
+
+          {/* Step 3: Sound power level */}
+          <View style={styles.tableRow}>
+            <Text style={styles.stepCell}>3</Text>
+            <Text style={styles.instructionCell}>{steps[2]}</Text>
+            <Text style={styles.resultCell}>{data.soundPower || '0'}</Text>
+          </View>
+
+          {/* Step 4a: Directivity */}
+          <View style={styles.tableRow}>
+            <Text style={styles.stepCell}>4a</Text>
+            <Text style={styles.instructionCell}>{steps[3]}</Text>
+            <Text style={styles.resultCell}>{data.directivityFactor || 'Q0'}</Text>
+          </View>
+
+          {/* Step 4b: Distance */}
+          <View style={styles.tableRow}>
+            <Text style={styles.stepCell}>4b</Text>
+            <Text style={styles.instructionCell}>{steps[4]}</Text>
+            <Text style={styles.resultCell}>{data.distance || '0'}</Text>
+          </View>
+
+          {/* Step 5: Barrier type */}
+          <View style={styles.tableRow}>
+            <Text style={styles.stepCell}>5</Text>
+            <Text style={styles.instructionCell}>{steps[5]}</Text>
+            <Text style={styles.resultCell}>{data.barrierType || 'No barrier'}</Text>
+          </View>
+
+          {/* Step 6: Line of sight */}
+          <View style={styles.tableRow}>
+            <Text style={styles.stepCell}>6</Text>
+            <Text style={styles.instructionCell}>{steps[6]}</Text>
+            <Text style={styles.resultCell}>{data.visibilityType || 'Unknown'}</Text>
+          </View>
+
+          {/* Step 7: Calculate Sound Pressure Level */}
+          <View style={styles.tableRow}>
+            <Text style={styles.stepCell}>7</Text>
+            <Text style={styles.instructionCell}>{steps[7]}</Text>
+            <Text style={styles.resultCell}>{data.calculatedLevel || '0'}</Text>
+          </View>
+
+          {/* Step 8: Final Result */}
+          <View style={styles.tableRow}>
+            <Text style={styles.stepCell}>8</Text>
+            <Text style={styles.instructionCell}>{steps[8]}</Text>
+            <Text style={[
+              styles.resultCell, 
+              data.isCompliant ? styles.passResult : styles.failResult
+            ]}>
+              {data.isCompliant ? "Pass" : "Fail"}
+            </Text>
+          </View>
+        </View>
+
+        <View style={[styles.tableRow, { marginTop: 20 }]}>
+          <Text style={[styles.resultCell, { width: '100%' }, data.isCompliant ? styles.passResult : styles.failResult]}>
+            Final Sound Pressure Level: {data.calculatedLevel || '0'} dB(A) - {data.isCompliant ? 'COMPLIANT' : 'NON-COMPLIANT'}
+          </Text>
+        </View>
+
+        <View style={[styles.footer, { marginTop: 20 }]}>
+          <Text style={styles.footerText}>
+            This assessment follows the MCS 020 planning standard for heat pumps.
+          </Text>
+          <Text style={styles.footerText}>
+            Maximum permitted sound level at assessment position: 42 dB(A)
+          </Text>
+        </View>
+      </Page>
+    </Document>
+  );
+};

@@ -8,6 +8,8 @@ interface ClientInfo {
   addressLine1: string;
   town: string;
   postcode: string;
+  assessmentDate: string;
+  assessmentPosition: string;
 }
 
 interface ClientInfoModalProps {
@@ -17,11 +19,22 @@ interface ClientInfoModalProps {
 }
 
 export const ClientInfoModal: React.FC<ClientInfoModalProps> = ({ isOpen, onClose, onSubmit }) => {
+  // Format today's date as YYYY-MM-DD without using date-fns
+  const formatTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const [clientInfo, setClientInfo] = useState<ClientInfo>({
     name: '',
     addressLine1: '',
     town: '',
-    postcode: ''
+    postcode: '',
+    assessmentDate: formatTodayDate(), // Default to today's date without date-fns
+    assessmentPosition: ''
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -47,7 +60,6 @@ export const ClientInfoModal: React.FC<ClientInfoModalProps> = ({ isOpen, onClos
               placeholder="Enter client name"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-white mb-2">
               Address Line 1
@@ -59,7 +71,6 @@ export const ClientInfoModal: React.FC<ClientInfoModalProps> = ({ isOpen, onClos
               placeholder="Enter first line of address"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-white mb-2">
               Town
@@ -71,7 +82,6 @@ export const ClientInfoModal: React.FC<ClientInfoModalProps> = ({ isOpen, onClos
               placeholder="Enter town"
             />
           </div>
-
           <div>
             <label className="block text-sm font-medium text-white mb-2">
               Postcode
@@ -83,8 +93,31 @@ export const ClientInfoModal: React.FC<ClientInfoModalProps> = ({ isOpen, onClos
               placeholder="Enter postcode"
             />
           </div>
+          
+          {/* New fields for assessment date and position */}
+          <div>
+            <label className="block text-sm font-medium text-white mb-2">
+              Assessment Date
+            </label>
+            <Input
+              type="date"
+              value={clientInfo.assessmentDate}
+              onChange={(e) => setClientInfo(prev => ({ ...prev, assessmentDate: e.target.value }))}
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-white mb-2">
+              Assessment Position
+            </label>
+            <Input
+              value={clientInfo.assessmentPosition}
+              onChange={(e) => setClientInfo(prev => ({ ...prev, assessmentPosition: e.target.value }))}
+              required
+              placeholder="e.g. First floor rear window of neighbour to the left"
+            />
+          </div>
         </div>
-
         <Button type="submit" className="w-full">
           Generate Report
         </Button>

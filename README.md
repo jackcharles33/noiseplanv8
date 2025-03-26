@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Heat Pump Noise Assessment Calculator
 
 A professional web application for calculating and assessing heat pump noise levels according to MCS 020 standards. Built with React, TypeScript, and Tailwind CSS.
@@ -99,6 +98,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - React and Vite communities for excellent documentation
 - Tailwind CSS for the styling framework
 - Supabase for the backend infrastructure
-=======
-# noiseplanv8
->>>>>>> dda611fe3e1f7db205af6426f196072fe812e44c

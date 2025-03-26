@@ -23,8 +23,8 @@ export const ComplianceMessage = ({ isCompliant }: ComplianceMessageProps) => (
         </h3>
         <p className="text-sm text-white/60">
           {isCompliant
-            ? 'This installation meets the permitted development noise requirements of ≤42 dB(A)'
-            : 'This configuration exceeds the permitted development noise limit of 42 dB(A). Consider adjusting the installation parameters.'}
+            ? 'This installation meets the permitted development noise requirements of ≤37 dB(A)'
+            : 'This configuration exceeds the permitted development noise limit of 37 dB(A). Consider adjusting the installation parameters.'}
         </p>
       </div>
     </div>

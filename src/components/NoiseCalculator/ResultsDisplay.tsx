@@ -35,7 +35,7 @@ export const ResultsDisplay = ({ results }: ResultsDisplayProps) => {
           <div className="flex items-center gap-2 mb-2">
             <LimitIcon /> Limit
           </div>
-          <div className="text-2xl font-bold">42.00 dB(A)</div>
+          <div className="text-2xl font-bold">37.00 dB(A)</div>
         </div>
       </div>
 
@@ -46,7 +46,7 @@ export const ResultsDisplay = ({ results }: ResultsDisplayProps) => {
             <div>
               <h3 className="text-red-400 font-semibold mb-1">Exceeds Noise Limit</h3>
               <p className="text-sm opacity-90">
-                This configuration exceeds the permitted development noise limit of 42 dB(A).
+                This configuration exceeds the permitted development noise limit of 37 dB(A).
                 Consider adjusting the installation parameters.
               </p>
             </div>

@@ -75,13 +75,25 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   passResult: {
-    backgroundColor: '#4ade80',
-    color: '#000000',
-    fontWeight: 'bold',
+  backgroundColor: '#c6efce',
+  color: '#006100',
+  fontWeight: 'bold',
+  textAlign: 'center',
   },
   failResult: {
-    backgroundColor: '#fb923c',
-    color: '#000000',
-    fontWeight: 'bold',
-  }
+  backgroundColor: '#ffc7ce',
+  color: '#9c0006',
+  fontWeight: 'bold',
+  textAlign: 'center',
+  },
+  footer: {
+  marginTop: 20,
+  padding: 10,
+  borderTop: '1pt solid #ddd',
+  },
+  footerText: {
+  fontSize: 10,
+  color: '#666',
+  textAlign: 'center',
+}
 });

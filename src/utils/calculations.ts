@@ -1,50 +1,70 @@
-import { getDecibelCorrection } from './decibelCorrection';
+import { 
+  DirectivityOption, 
+  BarrierOption, 
+  VisibilityOption 
+} from '../data/heatPumps';
 
 interface CalculationInput {
   soundPower: string;
   directivity: string;
   distance: string;
   barrier: string;
+  visibility: string;
 }
 
-const calculateDistanceReduction = (distance: number, directivity: string) => {
-  const d = parseFloat(distance.toString());
-  
-  switch (directivity) {
-    case '2':
-      return -8.67138897219558 * Math.log(d) - 7.75157229452539;
-    case '4':
-      return -8.65986536106484 * Math.log(d) - 4.84454631910138;
-    case '8':
-      return -8.66252064972486 * Math.log(d) - 1.80386749607598;
-    default:
-      return 0;
+const calculateSoundPressureLevel = (
+  soundPower: number,
+  Q: number,
+  distance: number
+): number => {
+  // Formula: SPL = SWL + 10*LOG(Q/(4*π*r²))
+  const PI = Math.PI;
+  return soundPower + 10 * Math.log10(Q / (4 * PI * Math.pow(distance, 2)));
+};
+
+const getDirectivityFactor = (directivity: string): number => {
+  const value = parseInt(directivity);
+  switch(value) {
+    case 0: return 2;  // Q2
+    case 1: return 4;  // Q4
+    case 2: return 8;  // Q8
+    default: return 4; // Default to Q4
   }
 };
 
 export const calculateResults = (input: CalculationInput) => {
+  // Step 1: Get sound power level
   const soundPower = parseFloat(input.soundPower);
+  
+  // Step 2: Get Q factor
+  const Q = getDirectivityFactor(input.directivity);
+  
+  // Step 3: Get distance
   const distance = parseFloat(input.distance);
-  const barrier = parseFloat(input.barrier);
-  const distanceReduction = calculateDistanceReduction(distance, input.directivity);
   
-  // Step 6 is the sum of steps 1, 4, and 5
-  const calculatedLevel = soundPower + distanceReduction + barrier;
+  // Step 4: Calculate base sound pressure level using the formula
+  const baseSoundPressureLevel = calculateSoundPressureLevel(soundPower, Q, distance);
   
-  const backgroundLevel = 40;
-  const levelDifference = backgroundLevel - calculatedLevel;
-  const correction = getDecibelCorrection(levelDifference);
-  const final = Math.max(calculatedLevel, backgroundLevel) + correction;
+  // Step 5: Calculate total attenuation
+  // Barrier and visibility values are already negative/positive as needed
+  const barrierAttenuation = parseFloat(input.barrier);
+  const visibilityAttenuation = parseFloat(input.visibility);
+  const totalAttenuation = barrierAttenuation * visibilityAttenuation;
+  
+  // Step 6: Calculate final sound pressure level
+  const finalSoundPressureLevel = baseSoundPressureLevel + totalAttenuation;
 
+  const roundedFinalValue = Math.round(finalSoundPressureLevel);
+  
+  // Format all results to 1 decimal place for consistency
   return {
-    step1: soundPower.toFixed(2),
-    step2: `Q${input.directivity}`,
+    step1: soundPower.toFixed(1),
+    step2: `Q${Q}`,
     step3: distance.toFixed(1),
-    step4: distanceReduction.toFixed(2), // dB reduction value
-    step5: barrier.toFixed(0),
-    step6: calculatedLevel.toFixed(2), // Sum of steps 1, 4, and 5
-    step7: backgroundLevel.toFixed(0),
-    step8: levelDifference.toFixed(2),
-    final: final.toFixed(2)
+    step4: baseSoundPressureLevel.toFixed(1),
+    step5: totalAttenuation.toFixed(1),
+    step6: finalSoundPressureLevel.toFixed(1),
+    final: finalSoundPressureLevel.toFixed(1),
+    isCompliant: finalSoundPressureLevel <= 37
   };
 };

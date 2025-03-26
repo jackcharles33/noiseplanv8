@@ -6,7 +6,13 @@ import React from 'react';
 export const generateReport = async (data: ReportData) => {
   try {
     const blob = await pdf(React.createElement(ReportDocument, { data })).toBlob();
-    const filename = `heat-pump-assessment-${data.date.replace(/\//g, '-')}.pdf`;
+    
+    // Format the date for the filename
+    const dateString = data.assessmentDate 
+      ? new Date(data.assessmentDate).toLocaleDateString('en-GB').replace(/\//g, '-')
+      : new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+    
+    const filename = `heat-pump-assessment-${dateString}.pdf`;
     
     // Create local download only
     const url = URL.createObjectURL(blob);

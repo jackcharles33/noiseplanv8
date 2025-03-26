@@ -3,7 +3,12 @@ import { StepLabel } from './StepLabel';
 import { Select } from '../ui/select';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { heatPumps } from '../../data/heatPumps';
+import { 
+  heatPumps, 
+  directivityOptions, 
+  barrierOptions, 
+  visibilityOptions 
+} from '../../data/heatPumps';
 
 interface CalculatorFormProps {
   formData: any;
@@ -43,9 +48,11 @@ export const CalculatorForm = ({
             value={formData.directivity}
             onChange={handleInputChange}
           >
-            <option value="2">One reflecting surface (Q2)</option>
-            <option value="4">Two reflecting surfaces (Q4)</option>
-            <option value="8">Three reflecting surfaces (Q8)</option>
+            {directivityOptions.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </Select>
         </div>
 
@@ -63,15 +70,32 @@ export const CalculatorForm = ({
         </div>
 
         <div className="transition-all duration-300 hover:translate-y-[-2px]">
-          <StepLabel step={4} label="Select Visibility" />
+          <StepLabel step={4} label="Select Barrier Type" />
           <Select
             name="barrier"
             value={formData.barrier}
             onChange={handleInputChange}
           >
-            <option value="0">Fully seen</option>
-            <option value="-5">Partially seen</option>
-            <option value="-10">Not seen</option>
+            {barrierOptions.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.type}
+              </option>
+            ))}
+          </Select>
+        </div>
+
+        <div className="transition-all duration-300 hover:translate-y-[-2px]">
+          <StepLabel step={5} label="Select Visibility" />
+          <Select
+            name="visibility"
+            value={formData.visibility}
+            onChange={handleInputChange}
+          >
+            {visibilityOptions.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.type}
+              </option>
+            ))}
           </Select>
         </div>
       </div>

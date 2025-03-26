@@ -11,10 +11,15 @@ interface ResultsProps {
     step1: string;
     step2: string;
     step3: string;
+    step4: string;
+    step5: string;
+    step6: string;
+    isCompliant: boolean;
   };
   formData: {
     soundPower: string;
     barrier: string;
+    visibility: string;
   };
 }
 
@@ -27,26 +32,43 @@ export const CalculatorResults = ({ results, formData }: ResultsProps) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <ResultCard 
           icon="noise" 
-          title="Noise Level" 
-          value={`${noiseLevel.toFixed(2)} dB(A)`}
-          valueColor={isCompliant ? 'text-white' : 'text-red-400'}
+          title="Sound Power Level" 
+          value={`${results.step1} dB(A)`}
         />
         <ResultCard 
           icon="status" 
-          title="Status" 
-          value={isCompliant ? 'Compliant' : 'Non-Compliant'}
-          valueColor={isCompliant ? 'text-emerald-400' : 'text-red-400'}
+          title="Base SPL" 
+          value={`${results.step4} dB(A)`}
         />
         <ResultCard 
           icon="limit" 
-          title="Limit" 
-          value="42.00 dB(A)" 
+          title="Final SPL" 
+          value={`${results.final} dB(A)`}
+          valueColor={isCompliant ? 'text-emerald-400' : 'text-red-400'}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <ResultCard 
+          icon="distance" 
+          title="Distance" 
+          value={`${results.step3}m`}
+        />
+        <ResultCard 
+          icon="barrier" 
+          title="Directivity" 
+          value={results.step2}
+        />
+        <ResultCard 
+          icon="attenuation" 
+          title="Attenuation" 
+          value={`${results.step5} dB(A)`}
         />
       </div>
 
       <ProgressBar 
         value={noiseLevel} 
-        maxValue={42}
+        maxValue={37}
         isCompliant={isCompliant}
       />
       <ComplianceMessage isCompliant={isCompliant} />
