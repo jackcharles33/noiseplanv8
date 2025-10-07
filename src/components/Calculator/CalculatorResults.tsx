@@ -16,16 +16,13 @@ interface ResultsProps {
     step6: string;
     isCompliant: boolean;
   };
-  formData: {
-    soundPower: string;
-    barrier: string;
-    visibility: string;
-  };
+  formData: any;
 }
 
 export const CalculatorResults = ({ results, formData }: ResultsProps) => {
   const noiseLevel = parseFloat(results.final);
-  const isCompliant = noiseLevel <= 42;
+  // UPDATED: Changed compliance threshold from 42 to 37
+  const isCompliant = noiseLevel <= 37;
 
   return (
     <div className="mt-8 space-y-6 animate-in fade-in duration-500">
@@ -50,19 +47,19 @@ export const CalculatorResults = ({ results, formData }: ResultsProps) => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <ResultCard 
-          icon="distance" 
+          icon="noise" // Placeholder, assuming you might add more icons
           title="Distance" 
           value={`${results.step3}m`}
         />
         <ResultCard 
-          icon="barrier" 
+          icon="status" // Placeholder
           title="Directivity" 
           value={results.step2}
         />
         <ResultCard 
-          icon="attenuation" 
+          icon="limit" // Placeholder
           title="Attenuation" 
-          value={`${results.step5} dB(A)`}
+          value={`${results.step5} dB`}
         />
       </div>
 
@@ -73,7 +70,7 @@ export const CalculatorResults = ({ results, formData }: ResultsProps) => {
       />
       <ComplianceMessage isCompliant={isCompliant} />
       
-      <div className="flex justify-end gap-4">
+      <div className="flex justify-end gap-4 mt-4">
         <GenerateReportButton results={results} formData={formData} />
         <CopyButton results={results} formData={formData} />
       </div>
