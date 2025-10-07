@@ -11,4 +11,5 @@ export interface ReportData {
   visibilityType: string;
   calculatedLevel: number | string;
   isCompliant: boolean;
+  annotatedPhoto?: File;
 }
