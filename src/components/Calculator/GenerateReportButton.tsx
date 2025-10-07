@@ -18,8 +18,8 @@ interface GenerateReportProps {
     model: string;
     soundPower: string;
     barrier: string;
-    directivity: string; // Make sure this is included
-    visibility: string;  // Add this if missing
+    directivity: string;
+    visibility: string;
   };
 }
 
@@ -28,12 +28,10 @@ export const GenerateReportButton = ({ results, formData }: GenerateReportProps)
   const [showModal, setShowModal] = React.useState(false);
 
   const getBarrierTypeText = () => {
-    // Map your barrier values to appropriate text
     const barrierMap: Record<string, string> = {
       '1': 'Solid Wall',
       '0.5': 'Fence <18mm',
       '0': 'No barrier'
-      // Add more mappings as needed
     };
     return barrierMap[formData.barrier] || 'No barrier';
   };
@@ -44,46 +42,35 @@ export const GenerateReportButton = ({ results, formData }: GenerateReportProps)
       '-5': 'Partially seen',
       '-10': 'Not seen'
     };
-    // Make sure you're using the right property - this should be formData.visibility not formData.barrier
     return visibilityMap[formData.visibility] || 'Unknown';
   };
 
-  const handleGenerateReport = async (clientInfo: any) => {
+  const handleGenerateReport = async (customerInfo: any) => {
     try {
       setGenerating(true);
       
-      // Log to debug
-      console.log("Client info:", clientInfo);
-      console.log("Form data:", formData);
-      console.log("Results:", results);
-
       const reportData = {
-        clientName: clientInfo.name,
-        clientAddress: `${clientInfo.addressLine1}, ${clientInfo.town}, ${clientInfo.postcode}`,
-        // Add the new fields
-        assessmentDate: clientInfo.assessmentDate || new Date().toISOString().slice(0, 10),
-        assessmentPosition: clientInfo.assessmentPosition || '',
+        clientName: customerInfo.name,
+        clientAddress: `${customerInfo.addressLine1}, ${customerInfo.town}, ${customerInfo.postcode}`,
+        assessmentDate: customerInfo.assessmentDate || new Date().toISOString().slice(0, 10),
+        assessmentPosition: customerInfo.assessmentPosition || '',
+        annotatedPhoto: customerInfo.annotatedPhoto,
         
         model: formData.model,
         soundPower: results.step1,
-        // Match the expected fields in ReportDocument
         directivityFactor: results.step2,
         distance: results.step3,
         barrierType: getBarrierTypeText(),
         visibilityType: getVisibilityText(),
         calculatedLevel: results.step6,
-        isCompliant: parseFloat(results.final) <= 42,
+        isCompliant: parseFloat(results.final) <= 37,
         
-        // These can stay but aren't used in your latest ReportDocument
         date: new Date().toLocaleDateString(),
         distanceReduction: results.step4,
         barrier: formData.barrier,
         difference: results.step8,
         finalLevel: results.final
       };
-      
-      // Log what we're sending to debug
-      console.log("Report data:", reportData);
       
       await generateReport(reportData);
     } catch (error) {
