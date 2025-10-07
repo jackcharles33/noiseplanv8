@@ -7,6 +7,7 @@ interface FormData {
   directivity: string;
   distance: string;
   barrier: string;
+  visibility: string; // Added for completeness
 }
 
 interface FormState {
@@ -19,9 +20,10 @@ export const useCalculatorForm = (): FormState => {
   const [formData, setFormData] = useState<FormData>({
     model: heatPumps[0].name,
     soundPower: heatPumps[0].soundPower.toString(),
-    directivity: '4',
+    directivity: '1', // Corrected default to '1' for Q4 (1 opposing surface)
     distance: '1',
-    barrier: '0'
+    barrier: '0',
+    visibility: '0'
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -49,7 +51,8 @@ export const useCalculatorForm = (): FormState => {
     formData.soundPower &&
     formData.directivity &&
     formData.distance &&
-    formData.barrier
+    formData.barrier &&
+    formData.visibility
   );
 
   return {
