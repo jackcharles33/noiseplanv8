@@ -3,23 +3,23 @@ import { Modal } from '../ui/modal';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 
-interface ClientInfo {
+interface CustomerInfo {
   name: string;
   addressLine1: string;
   town: string;
   postcode: string;
   assessmentDate: string;
   assessmentPosition: string;
+  annotatedPhoto?: File;
 }
 
-interface ClientInfoModalProps {
+interface CustomerInfoModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (clientInfo: ClientInfo) => void;
+  onSubmit: (customerInfo: CustomerInfo) => void;
 }
 
-export const ClientInfoModal: React.FC<ClientInfoModalProps> = ({ isOpen, onClose, onSubmit }) => {
-  // Format today's date as YYYY-MM-DD without using date-fns
+export const ClientInfoModal: React.FC<CustomerInfoModalProps> = ({ isOpen, onClose, onSubmit }) => {
   const formatTodayDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -28,36 +28,42 @@ export const ClientInfoModal: React.FC<ClientInfoModalProps> = ({ isOpen, onClos
     return `${year}-${month}-${day}`;
   };
 
-  const [clientInfo, setClientInfo] = useState<ClientInfo>({
+  const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
     name: '',
     addressLine1: '',
     town: '',
     postcode: '',
-    assessmentDate: formatTodayDate(), // Default to today's date without date-fns
+    assessmentDate: formatTodayDate(),
     assessmentPosition: ''
   });
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setCustomerInfo(prev => ({ ...prev, annotatedPhoto: e.target.files![0] }));
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(clientInfo);
+    onSubmit(customerInfo);
     onClose();
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-6">
-        <h2 className="text-xl font-bold text-white mb-6">Client Information</h2>
+        <h2 className="text-xl font-bold text-white mb-6">Customer Information</h2>
         
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-white mb-2">
-              Client Name
+              Customer Name
             </label>
             <Input
-              value={clientInfo.name}
-              onChange={(e) => setClientInfo(prev => ({ ...prev, name: e.target.value }))}
+              value={customerInfo.name}
+              onChange={(e) => setCustomerInfo(prev => ({ ...prev, name: e.target.value }))}
               required
-              placeholder="Enter client name"
+              placeholder="Enter customer name"
             />
           </div>
           <div>
@@ -65,8 +71,8 @@ export const ClientInfoModal: React.FC<ClientInfoModalProps> = ({ isOpen, onClos
               Address Line 1
             </label>
             <Input
-              value={clientInfo.addressLine1}
-              onChange={(e) => setClientInfo(prev => ({ ...prev, addressLine1: e.target.value }))}
+              value={customerInfo.addressLine1}
+              onChange={(e) => setCustomerInfo(prev => ({ ...prev, addressLine1: e.target.value }))}
               required
               placeholder="Enter first line of address"
             />
@@ -76,8 +82,8 @@ export const ClientInfoModal: React.FC<ClientInfoModalProps> = ({ isOpen, onClos
               Town
             </label>
             <Input
-              value={clientInfo.town}
-              onChange={(e) => setClientInfo(prev => ({ ...prev, town: e.target.value }))}
+              value={customerInfo.town}
+              onChange={(e) => setCustomerInfo(prev => ({ ...prev, town: e.target.value }))}
               required
               placeholder="Enter town"
             />
@@ -87,22 +93,21 @@ export const ClientInfoModal: React.FC<ClientInfoModalProps> = ({ isOpen, onClos
               Postcode
             </label>
             <Input
-              value={clientInfo.postcode}
-              onChange={(e) => setClientInfo(prev => ({ ...prev, postcode: e.target.value }))}
+              value={customerInfo.postcode}
+              onChange={(e) => setCustomerInfo(prev => ({ ...prev, postcode: e.target.value }))}
               required
               placeholder="Enter postcode"
             />
           </div>
           
-          {/* New fields for assessment date and position */}
           <div>
             <label className="block text-sm font-medium text-white mb-2">
               Assessment Date
             </label>
             <Input
               type="date"
-              value={clientInfo.assessmentDate}
-              onChange={(e) => setClientInfo(prev => ({ ...prev, assessmentDate: e.target.value }))}
+              value={customerInfo.assessmentDate}
+              onChange={(e) => setCustomerInfo(prev => ({ ...prev, assessmentDate: e.target.value }))}
               required
             />
           </div>
@@ -111,10 +116,21 @@ export const ClientInfoModal: React.FC<ClientInfoModalProps> = ({ isOpen, onClos
               Assessment Position
             </label>
             <Input
-              value={clientInfo.assessmentPosition}
-              onChange={(e) => setClientInfo(prev => ({ ...prev, assessmentPosition: e.target.value }))}
+              value={customerInfo.assessmentPosition}
+              onChange={(e) => setCustomerInfo(prev => ({ ...prev, assessmentPosition: e.target.value }))}
               required
               placeholder="e.g. First floor rear window of neighbour to the left"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-white mb-2">
+              Annotated Planning Application Photo
+            </label>
+            <Input
+              type="file"
+              accept="image/jpeg, image/png"
+              onChange={handleFileChange}
+              className="file:text-white"
             />
           </div>
         </div>
