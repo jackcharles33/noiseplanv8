@@ -46,9 +46,9 @@ export const calculateResults = (input: CalculationInput) => {
   const baseSoundPressureLevel = calculateSoundPressureLevel(soundPower, Q, distance);
   
   // Step 5: Calculate total attenuation
-  // Barrier and visibility values are already negative/positive as needed
   const barrierAttenuation = parseFloat(input.barrier);
   const visibilityAttenuation = parseFloat(input.visibility);
+  // UPDATED: Changed from addition to multiplication to match the new formula
   const totalAttenuation = barrierAttenuation * visibilityAttenuation;
   
   // Step 6: Calculate final sound pressure level
