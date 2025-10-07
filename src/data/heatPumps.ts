@@ -3,9 +3,11 @@ export interface HeatPump {
   soundPower: number;
 }
 
+// Updated heat pump data based on the spreadsheet
 export const heatPumps: HeatPump[] = [
   { name: 'Cosy6', soundPower: 58 },
-  { name: 'Cosy9', soundPower: 58 },
+  { name: 'Cosy9', soundPower: 57 },
+  { name: 'Cosy12', soundPower: 61 },
   { name: 'EDLA04E2V3', soundPower: 58 },
   { name: 'EDLA06E2V3', soundPower: 60 },
   { name: 'EDLA08E2V3', soundPower: 62 },
@@ -30,9 +32,10 @@ export const directivityOptions: DirectivityOption[] = [
 export interface BarrierOption {
   type: string;
   value: number;
-  id: string; // Add a unique identifier
+  id: string;
 }
 
+// Updated barrier options and values
 export const barrierOptions: BarrierOption[] = [
   { type: 'Solid Wall', value: 1, id: 'solid-wall' },
   { type: 'Fence >=18mm', value: 1, id: 'fence-thick' },
@@ -47,6 +50,7 @@ export interface VisibilityOption {
   value: number;
 }
 
+// Updated visibility options and values (Line of sight)
 export const visibilityOptions: VisibilityOption[] = [
   { type: 'Fully seen', value: 0 },
   { type: 'Partially seen', value: -5 },
