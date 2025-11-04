@@ -43,7 +43,7 @@ export const ReportDocument: React.FC<ReportDocumentProps> = ({ data }) => {
           {`${data.clientName || 'Customer'} - ${data.clientAddress || 'Address'}`}
         </Text>
         <Text style={[styles.subtitle, { fontSize: 14, marginBottom: 20, color: '#000000' }]}>
-          MCS 020 - Heat Pump Sound Calculator
+          MCS 020(a) - Heat Pump Sound Calculator
         </Text>
 
         <Text style={[styles.sectionHeading]}>Assessment Details</Text>
