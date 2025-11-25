@@ -60,7 +60,7 @@ export const styles = StyleSheet.create({
     padding: 6,
   },
   instructionCell: {
-    width: '70%',
+    width: '50%',
     fontSize: 9,
     borderRightWidth: 2,
     borderColor: '#000000',
@@ -68,32 +68,32 @@ export const styles = StyleSheet.create({
     paddingRight: 8,
   },
   resultCell: {
-    width: '20%',
+    width: '40%',
     fontSize: 10,
     fontWeight: 'bold',
     padding: 6,
-    textAlign: 'center',
+    textAlign: 'left',
   },
   passResult: {
-  backgroundColor: '#c6efce',
-  color: '#006100',
-  fontWeight: 'bold',
-  textAlign: 'center',
+    backgroundColor: '#c6efce',
+    color: '#006100',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   failResult: {
-  backgroundColor: '#ffc7ce',
-  color: '#9c0006',
-  fontWeight: 'bold',
-  textAlign: 'center',
+    backgroundColor: '#ffc7ce',
+    color: '#9c0006',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   footer: {
-  marginTop: 20,
-  padding: 10,
-  borderTop: '1pt solid #ddd',
+    marginTop: 20,
+    padding: 10,
+    borderTop: '1pt solid #ddd',
   },
   footerText: {
-  fontSize: 10,
-  color: '#666',
-  textAlign: 'center',
-}
+    fontSize: 10,
+    color: '#666',
+    textAlign: 'center',
+  }
 });
