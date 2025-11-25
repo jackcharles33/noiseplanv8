@@ -1,3 +1,4 @@
+// src/utils/report/styles.ts
 import { StyleSheet } from '@react-pdf/renderer';
 
 export const styles = StyleSheet.create({
@@ -60,7 +61,7 @@ export const styles = StyleSheet.create({
     padding: 6,
   },
   instructionCell: {
-    width: '70%',
+    [cite_start]width: '50%', // Changed from 70% to give more room to results [cite: 8]
     fontSize: 9,
     borderRightWidth: 2,
     borderColor: '#000000',
@@ -68,32 +69,32 @@ export const styles = StyleSheet.create({
     paddingRight: 8,
   },
   resultCell: {
-    width: '20%',
+    [cite_start]width: '40%', // Changed from 20% to 40% to fit text better [cite: 8, 9]
     fontSize: 10,
     fontWeight: 'bold',
     padding: 6,
-    textAlign: 'center',
+    textAlign: 'left', // Changed from center to left for better readability of text notes
   },
   passResult: {
-  backgroundColor: '#c6efce',
-  color: '#006100',
-  fontWeight: 'bold',
-  textAlign: 'center',
+    backgroundColor: '#c6efce',
+    color: '#006100',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   failResult: {
-  backgroundColor: '#ffc7ce',
-  color: '#9c0006',
-  fontWeight: 'bold',
-  textAlign: 'center',
+    backgroundColor: '#ffc7ce',
+    color: '#9c0006',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   footer: {
-  marginTop: 20,
-  padding: 10,
-  borderTop: '1pt solid #ddd',
+    marginTop: 20,
+    padding: 10,
+    borderTop: '1pt solid #ddd',
   },
   footerText: {
-  fontSize: 10,
-  color: '#666',
-  textAlign: 'center',
-}
+    fontSize: 10,
+    color: '#666',
+    textAlign: 'center',
+  }
 });
