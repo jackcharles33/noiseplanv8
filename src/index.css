@@ -1,41 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Font Import */
+@import url('https://fonts.googleapis.com/csszb2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 :root {
-  --background: #100030;
-  --card-background: #33274d;
-  --foreground: 210 40% 98%;
-  --input: 267 35% 18%;
-  --primary: 267 83% 60%;
-  --primary-gradient: linear-gradient(90deg, #E561A0 0%, #A363E3 100%);
-  --secondary: 267 35% 20%;
-  --accent: 267 83% 60%;
-  --error: 0 84% 60%;
-  --success: 142 72% 29%;
-  --radius: 1rem;
+  /* Core Theme Colors */
+  --background: #100030;       /* Deep Navy/Purple Background */
+  --card-background: #33274d;  /* Lighter Purple for Main Containers */
+  --foreground: #f8fafc;       /* Text Color (White-ish) */
+  
+  /* UI Element Colors */
+  --input-bg: #1a1528;         /* Very Dark Purple for Inputs/Selects */
+  --card-inner: #241b36;       /* Dark Purple for Result Cards */
+  
+  /* Action Colors */
+  --primary: #E561A0;          /* Hot Pink (Buttons & Accents) */
+  --primary-hover: #d44d8d;    /* Button Hover State */
+  
+  /* Gradients & Accents */
+  --gradient-start: #f472b6;   /* pink-400 */
+  --gradient-end: #a855f7;     /* purple-500 */
+  
+  /* Status Colors */
+  --success: #34d399;          /* emerald-400 */
+  --error: #f87171;            /* red-400 */
+  
+  /* Global Settings */
+  --radius: 1rem;              /* 16px border radius */
+  --font-sans: 'Montserrat', sans-serif;
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
   background-color: var(--background);
-  color: hsl(var(--foreground));
+  color: var(--foreground);
+  font-family: var(--font-sans);
 }
 
 select {
   background-image: url("data:image/svg+xml,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 7L13 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1.5rem center;
-}
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
+  appearance: none;
 }

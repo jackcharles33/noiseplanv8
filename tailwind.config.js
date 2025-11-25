@@ -1,52 +1,35 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Montserrat', 'sans-serif'],
+      },
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
+        background: '#100030',
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: '#33274d',  // Main container background
+          inner: '#241b36',    // Result cards background
         },
+        input: '#1a1528',      // Input fields background
+        primary: {
+          DEFAULT: '#E561A0',  // Main Pink Button color
+          hover: '#d44d8d',
+        },
+        // These mimic the 'text-pink-400' and 'purple-500' used in gradients
+        brand: {
+          pink: '#f472b6',
+          purple: '#a855f7',
+        }
+      },
+      backgroundImage: {
+        'primary-gradient': 'linear-gradient(90deg, #E561A0 0%, #A363E3 100%)',
+        'text-gradient': 'linear-gradient(to right, #f472b6, #a855f7)',
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
+        lg: '1rem',      // rounded-2xl
+        xl: '1.5rem',    // rounded-3xl
+      }
     },
   },
-  plugins: [],
 }
