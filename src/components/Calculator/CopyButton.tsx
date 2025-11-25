@@ -1,3 +1,4 @@
+// src/components/Calculator/CopyButton.tsx
 import React from 'react';
 import { Copy, Check } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -13,6 +14,7 @@ interface CopyButtonProps {
   formData: {
     soundPower: string;
     barrier: string;
+    visibility: string;
   };
 }
 
@@ -30,7 +32,7 @@ export const CopyButton = ({ results, formData }: CopyButtonProps) => {
       '-5': 'Partially seen',
       '-10': 'Not seen'
     };
-    return visibilityMap[formData.barrier] || 'Unknown';
+    return visibilityMap[formData.visibility] || 'Unknown';
   };
 
   const handleCopy = async () => {

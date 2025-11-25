@@ -1,8 +1,10 @@
+// src/components/Calculator/GenerateReportButton.tsx
 import React from 'react';
 import { FileText } from 'lucide-react';
 import { Button } from '../ui/button';
 import { generateReport } from '../../utils/report/generateReport';
 import { ClientInfoModal } from './ClientInfoModal';
+import { barrierOptions } from '../../data/heatPumps';
 
 interface GenerateReportProps {
   results: {
@@ -28,12 +30,8 @@ export const GenerateReportButton = ({ results, formData }: GenerateReportProps)
   const [showModal, setShowModal] = React.useState(false);
 
   const getBarrierTypeText = () => {
-    const barrierMap: Record<string, string> = {
-      '1': 'Solid Wall',
-      '0.5': 'Fence <18mm',
-      '0': 'No barrier'
-    };
-    return barrierMap[formData.barrier] || 'No barrier';
+    const selected = barrierOptions.find(b => b.id === formData.barrier);
+    return selected ? selected.type : 'No barrier';
   };
   
   const getVisibilityText = () => {

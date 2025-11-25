@@ -1,3 +1,4 @@
+// src/components/Calculator/CalculatorForm.tsx
 import React from 'react';
 import { StepLabel } from './StepLabel';
 import { Select } from '../ui/select';
@@ -76,8 +77,8 @@ export const CalculatorForm = ({
             value={formData.barrier}
             onChange={handleInputChange}
           >
-            {barrierOptions.map((option, index) => (
-              <option key={index} value={option.value}>
+            {barrierOptions.map((option) => (
+              <option key={option.id} value={option.id}>
                 {option.type}
               </option>
             ))}

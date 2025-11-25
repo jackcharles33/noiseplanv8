@@ -1,7 +1,9 @@
+// src/utils/calculations.ts
 import { 
   DirectivityOption, 
   BarrierOption, 
-  VisibilityOption 
+  VisibilityOption,
+  barrierOptions
 } from '../data/heatPumps';
 
 interface CalculationInput {
@@ -46,7 +48,9 @@ export const calculateResults = (input: CalculationInput) => {
   const baseSoundPressureLevel = calculateSoundPressureLevel(soundPower, Q, distance);
   
   // Step 5: Calculate total attenuation
-  const barrierAttenuation = parseFloat(input.barrier);
+  const selectedBarrier = barrierOptions.find(b => b.id === input.barrier);
+  const barrierAttenuation = selectedBarrier ? selectedBarrier.value : 0;
+  
   const visibilityAttenuation = parseFloat(input.visibility);
   // UPDATED: Changed from addition to multiplication to match the new formula
   const totalAttenuation = barrierAttenuation * visibilityAttenuation;

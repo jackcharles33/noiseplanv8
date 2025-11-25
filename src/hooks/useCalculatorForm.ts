@@ -1,3 +1,4 @@
+// src/hooks/useCalculatorForm.ts
 import { useState } from 'react';
 import { heatPumps } from '../data/heatPumps';
 
@@ -22,7 +23,7 @@ export const useCalculatorForm = (): FormState => {
     soundPower: heatPumps[0].soundPower.toString(),
     directivity: '1', // Corrected default to '1' for Q4 (1 opposing surface)
     distance: '1',
-    barrier: '0',
+    barrier: 'no-barrier', // Updated to use ID instead of value '0'
     visibility: '0'
   });
 
