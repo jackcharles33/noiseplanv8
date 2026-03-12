@@ -8,6 +8,7 @@ export const heatPumps: HeatPump[] = [
   { name: 'Cosy6', soundPower: 58 },
   { name: 'Cosy9', soundPower: 57 },
   { name: 'Cosy12', soundPower: 61 },
+  { name: 'Grant Aerona 15.5', soundPower: 53 },
   { name: 'EDLA04E2V3', soundPower: 58 },
   { name: 'EDLA06E2V3', soundPower: 60 },
   { name: 'EDLA08E2V3', soundPower: 62 },
